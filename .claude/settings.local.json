@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm config *)",
+      "Bash(grep -E \"^bcrypt$|^passport$\")",
+      "Bash(npx prisma *)",
+      "Bash(grep -E \"^pg$|^prisma-postgres|adapter\")",
+      "Bash(netstat -ano)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:3000/api/crowdfund)",
+      "Bash(curl *)",
+      "Bash(npx --yes create-next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --yes)",
+      "Bash(npx --yes create-next-app@latest nursafar-temp --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\")",
+      "Bash(cp -r /d/Nursafar-project/nursafar-temp/app /d/Nursafar-project/Nursafar-Frontend/)",
+      "Bash(cp -r /d/Nursafar-project/nursafar-temp/public /d/Nursafar-project/Nursafar-Frontend/)",
+      "Bash(bash *)",
+      "Bash(node -e \"const l = require\\('lucide-react'\\); Object.keys\\(l\\).filter\\(k => /gram|tube|book|link|share/i.test\\(k\\)\\).slice\\(0,15\\).forEach\\(k => console.log\\(k\\)\\)\")",
+      "Bash(node *)",
+      "PowerShell(netstat *)",
+      "PowerShell(taskkill *)",
+      "Bash(Get-ChildItem -Path \"D:\\\\Nursafar-project\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Bash(Format-Table -AutoSize)",
+      "Bash(mkdir \"D:\\\\Nursafar-project\\\\Nursafar-Frontend\\\\app\\\\[locale]\\\\\\(admin-side\\)\\\\admin\\\\financials\")",
+      "Bash(mkdir \"D:\\\\Nursafar-project\\\\Nursafar-Frontend\\\\app\\\\[locale]\\\\\\(admin-side\\)\\\\admin\\\\users\")",
+      "Bash(npx tsc *)"
+    ]
+  }
+}

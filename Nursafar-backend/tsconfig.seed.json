@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "target": "ES2020",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "strict": false
+  },
+  "ts-node": {
+    "transpileOnly": true
+  }
+}

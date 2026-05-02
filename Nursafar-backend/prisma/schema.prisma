@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  CLIENT
+  PARTNER
+  DRIVER
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  PAID
+  CANCELLED
+}
+
+enum LogisticsStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  phone      String   @unique
+  password   String
+  role       Role     @default(CLIENT)
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  bookings        Booking[]
+  campaigns       CrowdfundCampaign[]
+  donations       Donation[]
+  tours           Tour[]              @relation("PartnerTours")
+  driverLogistics Logistics[]         @relation("DriverLogistics")
+}
+
+model Tour {
+  id              String   @id @default(uuid())
+  partnerId       String
+  partner         User     @relation("PartnerTours", fields: [partnerId], references: [id])
+  title           String
+  description     String?
+  departureCity   String
+  price           Float
+  hotelStars      Int
+  distanceToHaram Float
+  duration        Int      @default(14)
+  imageUrl        String?
+  isAvailable     Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  bookings Booking[]
+}
+
+model Booking {
+  id        String        @id @default(uuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id])
+  tourId    String
+  tour      Tour          @relation(fields: [tourId], references: [id])
+  status    BookingStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  logistics Logistics?
+}
+
+model CrowdfundCampaign {
+  id            String     @id @default(uuid())
+  userId        String
+  user          User       @relation(fields: [userId], references: [id])
+  title         String
+  description   String?
+  targetAmount  Float
+  currentAmount Float      @default(0)
+  isCompleted   Boolean    @default(false)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  donations Donation[]
+}
+
+model Donation {
+  id         String            @id @default(uuid())
+  campaignId String
+  campaign   CrowdfundCampaign @relation(fields: [campaignId], references: [id])
+  donorId    String
+  donor      User              @relation(fields: [donorId], references: [id])
+  amount     Float
+  message    String?
+  createdAt  DateTime          @default(now())
+}
+
+model Logistics {
+  id            String          @id @default(uuid())
+  bookingId     String          @unique
+  booking       Booking         @relation(fields: [bookingId], references: [id])
+  pickupAddress String
+  pickupTime    DateTime
+  driverId      String?
+  driver        User?           @relation("DriverLogistics", fields: [driverId], references: [id])
+  status        LogisticsStatus @default(PENDING)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
