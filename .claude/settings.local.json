@@ -24,7 +24,20 @@
       "Bash(Format-Table -AutoSize)",
       "Bash(mkdir \"D:\\\\Nursafar-project\\\\Nursafar-Frontend\\\\app\\\\[locale]\\\\\\(admin-side\\)\\\\admin\\\\financials\")",
       "Bash(mkdir \"D:\\\\Nursafar-project\\\\Nursafar-Frontend\\\\app\\\\[locale]\\\\\\(admin-side\\)\\\\admin\\\\users\")",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(mkdir \"D:\\\\Nursafar-project\\\\Nursafar-Frontend\\\\app\\\\[locale]\\\\\\(partner-side\\)\\\\partner\\\\tours\")",
+      "Bash(mkdir \"D:\\\\Nursafar-project\\\\Nursafar-Frontend\\\\app\\\\[locale]\\\\\\(partner-side\\)\\\\partner\\\\tours\\\\new\")",
+      "Bash(mkdir \"D:\\\\Nursafar-project\\\\Nursafar-Frontend\\\\app\\\\[locale]\\\\\\(partner-side\\)\\\\partner\\\\clients\")",
+      "Bash(mkdir \"D:\\\\Nursafar-project\\\\Nursafar-Frontend\\\\app\\\\[locale]\\\\\\(partner-side\\)\\\\partner\\\\rides\")",
+      "PowerShell(Test-NetConnection *)",
+      "PowerShell(Receive-Job *)",
+      "PowerShell(Get-Job *)",
+      "PowerShell(Get-Command *)",
+      "PowerShell($result = Invoke-WebRequest -Uri \"http://localhost:3000/api/auth/login\" -Method POST -ContentType \"application/json\" -Body '{\"email\":\"admin@nursafar.tj\",\"password\":\"AdminSuperSecret!\"}' -UseBasicParsing; Write-Host \"Status: $\\($result.StatusCode\\)\"; Write-Host \"Body: $\\($result.Content.Substring\\(0, [Math]::Min\\(200, $result.Content.Length\\)\\)\\)\")",
+      "PowerShell($result = Invoke-WebRequest -Uri \"http://localhost:3001/api/auth/login\" -Method POST -ContentType \"application/json\" -Body '{\"email\":\"poketbroker570@gmail.com\",\"password\":\"12345678\"}' -UseBasicParsing 2>&1; Write-Host \"Status: $\\($result.StatusCode\\)\"; Write-Host \"Body: $\\($result.Content\\)\")",
+      "PowerShell($result = Invoke-WebRequest -Uri \"http://localhost:3001/api/auth/login\" -Method POST -ContentType \"application/json\" -Body '{\"email\":\"agency@nursafar.tj\",\"password\":\"AgencyTest123!\"}' -UseBasicParsing; Write-Host \"Status: $\\($result.StatusCode\\)\")",
+      "Bash(Get-ChildItem -Path \"D:\\\\Nursafar-project\\\\Nursafar-Frontend\\\\app\" -Recurse -Filter \"*.tsx\")",
+      "Bash(Select-Object FullName)"
     ]
   }
 }

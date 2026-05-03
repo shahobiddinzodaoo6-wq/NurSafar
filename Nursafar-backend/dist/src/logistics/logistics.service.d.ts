@@ -1,6 +1,7 @@
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateLogisticsDto } from './dto/create-logistics.dto';
 import { UpdateLogisticsDto } from './dto/update-logistics.dto';
+import { LogisticsStatus } from '@prisma/client';
 export declare class LogisticsService {
     private readonly prisma;
     constructor(prisma: PrismaService);
@@ -133,6 +134,11 @@ export declare class LogisticsService {
             user: {
                 id: string;
                 name: string;
+                phone: string;
+            };
+            tour: {
+                id: string;
+                title: string;
             };
         } & {
             id: string;
@@ -152,4 +158,37 @@ export declare class LogisticsService {
         pickupTime: Date;
         driverId: string | null;
     })[]>;
+    updateStatus(id: string, driverId: string, status: LogisticsStatus): Promise<{
+        booking: {
+            user: {
+                id: string;
+                name: string;
+                phone: string;
+            };
+            tour: {
+                id: string;
+                title: string;
+            };
+        } & {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            status: import("@prisma/client").$Enums.BookingStatus;
+            userId: string;
+            tourId: string;
+        };
+        driver: {
+            id: string;
+            name: string;
+        } | null;
+    } & {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        status: import("@prisma/client").$Enums.LogisticsStatus;
+        bookingId: string;
+        pickupAddress: string;
+        pickupTime: Date;
+        driverId: string | null;
+    }>;
 }

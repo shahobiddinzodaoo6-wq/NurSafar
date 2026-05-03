@@ -64,8 +64,34 @@ let LogisticsService = class LogisticsService {
     findByDriver(driverId) {
         return this.prisma.logistics.findMany({
             where: { driverId },
-            include: { booking: { include: { user: { select: { id: true, name: true } } } } },
+            include: {
+                booking: {
+                    include: {
+                        user: { select: { id: true, name: true, phone: true } },
+                        tour: { select: { id: true, title: true } },
+                    },
+                },
+            },
             orderBy: { pickupTime: 'asc' },
+        });
+    }
+    async updateStatus(id, driverId, status) {
+        const item = await this.findOne(id);
+        if (item.driverId !== driverId) {
+            throw new common_1.ForbiddenException('You are not assigned to this trip');
+        }
+        return this.prisma.logistics.update({
+            where: { id },
+            data: { status },
+            include: {
+                booking: {
+                    include: {
+                        user: { select: { id: true, name: true, phone: true } },
+                        tour: { select: { id: true, title: true } },
+                    },
+                },
+                driver: { select: { id: true, name: true } },
+            },
         });
     }
 };

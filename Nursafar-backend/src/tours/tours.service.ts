@@ -88,4 +88,41 @@ export class ToursService {
       orderBy: { createdAt: 'desc' },
     });
   }
+
+  findPartnerTours(partnerId: string) {
+    return this.prisma.tour.findMany({
+      where: { partnerId },
+      include: { _count: { select: { bookings: true } } },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async getPartnerStats(partnerId: string) {
+    const tours = await this.prisma.tour.findMany({
+      where: { partnerId },
+      select: { id: true, price: true, isAvailable: true },
+    });
+    const bookings = await this.prisma.booking.findMany({
+      where: { tour: { partnerId } },
+      select: { tourId: true },
+    });
+    const activeTours = tours.filter((t) => t.isAvailable).length;
+    const totalClients = bookings.length;
+    const totalRevenue = tours.reduce((sum, t) => {
+      const count = bookings.filter((b) => b.tourId === t.id).length;
+      return sum + t.price * count;
+    }, 0);
+    return { activeTours, totalClients, totalRevenue };
+  }
+
+  findPartnerClients(partnerId: string) {
+    return this.prisma.booking.findMany({
+      where: { tour: { partnerId } },
+      include: {
+        user: { select: { id: true, name: true, email: true, phone: true } },
+        tour: { select: { id: true, title: true, price: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
 }

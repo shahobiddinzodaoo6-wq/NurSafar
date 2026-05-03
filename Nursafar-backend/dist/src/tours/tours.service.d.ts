@@ -164,4 +164,48 @@ export declare class ToursService {
         userId: string;
         tourId: string;
     })[]>;
+    findPartnerTours(partnerId: string): import("@prisma/client").Prisma.PrismaPromise<({
+        _count: {
+            bookings: number;
+        };
+    } & {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        description: string | null;
+        title: string;
+        departureCity: string;
+        price: number;
+        hotelStars: number;
+        distanceToHaram: number;
+        duration: number;
+        imageUrl: string | null;
+        isAvailable: boolean;
+        partnerId: string;
+    })[]>;
+    getPartnerStats(partnerId: string): Promise<{
+        activeTours: number;
+        totalClients: number;
+        totalRevenue: number;
+    }>;
+    findPartnerClients(partnerId: string): import("@prisma/client").Prisma.PrismaPromise<({
+        user: {
+            id: string;
+            name: string;
+            email: string;
+            phone: string;
+        };
+        tour: {
+            id: string;
+            title: string;
+            price: number;
+        };
+    } & {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        status: import("@prisma/client").$Enums.BookingStatus;
+        userId: string;
+        tourId: string;
+    })[]>;
 }

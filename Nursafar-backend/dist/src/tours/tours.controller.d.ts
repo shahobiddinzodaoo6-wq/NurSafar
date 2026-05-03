@@ -25,6 +25,50 @@ export declare class ToursController {
         isAvailable: boolean;
         partnerId: string;
     })[]>;
+    partnerTours(user: any): import("@prisma/client").Prisma.PrismaPromise<({
+        _count: {
+            bookings: number;
+        };
+    } & {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        description: string | null;
+        title: string;
+        departureCity: string;
+        price: number;
+        hotelStars: number;
+        distanceToHaram: number;
+        duration: number;
+        imageUrl: string | null;
+        isAvailable: boolean;
+        partnerId: string;
+    })[]>;
+    partnerStats(user: any): Promise<{
+        activeTours: number;
+        totalClients: number;
+        totalRevenue: number;
+    }>;
+    partnerClients(user: any): import("@prisma/client").Prisma.PrismaPromise<({
+        user: {
+            id: string;
+            name: string;
+            email: string;
+            phone: string;
+        };
+        tour: {
+            id: string;
+            title: string;
+            price: number;
+        };
+    } & {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        status: import("@prisma/client").$Enums.BookingStatus;
+        userId: string;
+        tourId: string;
+    })[]>;
     findAll(): import("@prisma/client").Prisma.PrismaPromise<({
         partner: {
             id: string;

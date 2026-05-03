@@ -1,7 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateLogisticsDto } from './dto/create-logistics.dto';
 import { UpdateLogisticsDto } from './dto/update-logistics.dto';
+import { LogisticsStatus } from '@prisma/client';
 
 @Injectable()
 export class LogisticsService {
@@ -57,8 +58,35 @@ export class LogisticsService {
   findByDriver(driverId: string) {
     return this.prisma.logistics.findMany({
       where: { driverId },
-      include: { booking: { include: { user: { select: { id: true, name: true } } } } },
+      include: {
+        booking: {
+          include: {
+            user: { select: { id: true, name: true, phone: true } },
+            tour: { select: { id: true, title: true } },
+          },
+        },
+      },
       orderBy: { pickupTime: 'asc' },
+    });
+  }
+
+  async updateStatus(id: string, driverId: string, status: LogisticsStatus) {
+    const item = await this.findOne(id);
+    if (item.driverId !== driverId) {
+      throw new ForbiddenException('You are not assigned to this trip');
+    }
+    return this.prisma.logistics.update({
+      where: { id },
+      data: { status },
+      include: {
+        booking: {
+          include: {
+            user: { select: { id: true, name: true, phone: true } },
+            tour: { select: { id: true, title: true } },
+          },
+        },
+        driver: { select: { id: true, name: true } },
+      },
     });
   }
 }

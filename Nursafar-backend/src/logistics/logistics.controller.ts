@@ -3,6 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } 
 import { LogisticsService } from './logistics.service';
 import { CreateLogisticsDto } from './dto/create-logistics.dto';
 import { UpdateLogisticsDto } from './dto/update-logistics.dto';
+import { UpdateStatusDto } from './dto/update-status.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
@@ -48,6 +49,17 @@ export class LogisticsController {
   @ApiResponse({ status: 404, description: 'Logistics booking not found.' })
   findOne(@Param('id') id: string) {
     return this.logisticsService.findOne(id);
+  }
+
+  @Patch(':id/status')
+  @UseGuards(RolesGuard)
+  @Roles('DRIVER')
+  @ApiOperation({ summary: '[DRIVER] Update trip status' })
+  @ApiParam({ name: 'id', description: 'Logistics ID' })
+  @ApiBody({ type: UpdateStatusDto })
+  @ApiResponse({ status: 200, description: 'Trip status updated.' })
+  updateStatus(@Param('id') id: string, @Body() dto: UpdateStatusDto, @CurrentUser() user: any) {
+    return this.logisticsService.updateStatus(id, user.id, dto.status);
   }
 
   @Patch(':id')

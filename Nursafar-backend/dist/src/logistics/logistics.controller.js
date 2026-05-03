@@ -18,6 +18,7 @@ const swagger_1 = require("@nestjs/swagger");
 const logistics_service_1 = require("./logistics.service");
 const create_logistics_dto_1 = require("./dto/create-logistics.dto");
 const update_logistics_dto_1 = require("./dto/update-logistics.dto");
+const update_status_dto_1 = require("./dto/update-status.dto");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 const roles_guard_1 = require("../auth/guards/roles.guard");
 const roles_decorator_1 = require("../auth/decorators/roles.decorator");
@@ -38,6 +39,9 @@ let LogisticsController = class LogisticsController {
     }
     findOne(id) {
         return this.logisticsService.findOne(id);
+    }
+    updateStatus(id, dto, user) {
+        return this.logisticsService.updateStatus(id, user.id, dto.status);
     }
     update(id, dto) {
         return this.logisticsService.update(id, dto);
@@ -89,6 +93,21 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], LogisticsController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Patch)(':id/status'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('DRIVER'),
+    (0, swagger_1.ApiOperation)({ summary: '[DRIVER] Update trip status' }),
+    (0, swagger_1.ApiParam)({ name: 'id', description: 'Logistics ID' }),
+    (0, swagger_1.ApiBody)({ type: update_status_dto_1.UpdateStatusDto }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Trip status updated.' }),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, update_status_dto_1.UpdateStatusDto, Object]),
+    __metadata("design:returntype", void 0)
+], LogisticsController.prototype, "updateStatus", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     (0, swagger_1.ApiOperation)({ summary: '[AUTH] Update a logistics booking' }),

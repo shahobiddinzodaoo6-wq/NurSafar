@@ -31,6 +31,15 @@ let ToursController = class ToursController {
     search(filters) {
         return this.toursService.search(filters);
     }
+    partnerTours(user) {
+        return this.toursService.findPartnerTours(user.id);
+    }
+    partnerStats(user) {
+        return this.toursService.getPartnerStats(user.id);
+    }
+    partnerClients(user) {
+        return this.toursService.findPartnerClients(user.id);
+    }
     findAll() {
         return this.toursService.findAll();
     }
@@ -63,6 +72,42 @@ __decorate([
     __metadata("design:paramtypes", [search_tour_dto_1.SearchTourDto]),
     __metadata("design:returntype", void 0)
 ], ToursController.prototype, "search", null);
+__decorate([
+    (0, common_1.Get)('partner-tours'),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('PARTNER', 'ADMIN'),
+    (0, swagger_1.ApiOperation)({ summary: '[PARTNER] Get own tours with booking counts' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Return partner tours.' }),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ToursController.prototype, "partnerTours", null);
+__decorate([
+    (0, common_1.Get)('partner-stats'),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('PARTNER', 'ADMIN'),
+    (0, swagger_1.ApiOperation)({ summary: '[PARTNER] Get dashboard stats' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Return partner stats.' }),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ToursController.prototype, "partnerStats", null);
+__decorate([
+    (0, common_1.Get)('partner-clients'),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('PARTNER', 'ADMIN'),
+    (0, swagger_1.ApiOperation)({ summary: '[PARTNER] Get clients who booked own tours' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Return partner clients.' }),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ToursController.prototype, "partnerClients", null);
 __decorate([
     (0, common_1.Get)(),
     (0, swagger_1.ApiOperation)({ summary: 'Get all tours (public)' }),

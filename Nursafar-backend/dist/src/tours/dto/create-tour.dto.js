@@ -21,6 +21,7 @@ class CreateTourDto {
     distanceToHaram;
     duration;
     imageUrl;
+    isAvailable;
 }
 exports.CreateTourDto = CreateTourDto;
 __decorate([
@@ -70,4 +71,10 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateTourDto.prototype, "imageUrl", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: true, required: false, description: 'Whether the tour is open for booking' }),
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Boolean)
+], CreateTourDto.prototype, "isAvailable", void 0);
 //# sourceMappingURL=create-tour.dto.js.map

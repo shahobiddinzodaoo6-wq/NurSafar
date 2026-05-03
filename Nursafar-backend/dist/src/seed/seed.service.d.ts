@@ -6,4 +6,5 @@ export declare class SeedService implements OnApplicationBootstrap {
     constructor(prisma: PrismaService);
     onApplicationBootstrap(): Promise<void>;
     private seedAdmin;
+    private seedTestAccounts;
 }

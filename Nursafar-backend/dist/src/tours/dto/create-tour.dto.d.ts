@@ -7,4 +7,5 @@ export declare class CreateTourDto {
     distanceToHaram: number;
     duration?: number;
     imageUrl?: string;
+    isAvailable?: boolean;
 }

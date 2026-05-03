@@ -40,4 +40,9 @@ export class CreateTourDto {
   @IsString()
   @IsOptional()
   imageUrl?: string;
+
+  @ApiProperty({ example: true, required: false, description: 'Whether the tour is open for booking' })
+  @IsBoolean()
+  @IsOptional()
+  isAvailable?: boolean;
 }

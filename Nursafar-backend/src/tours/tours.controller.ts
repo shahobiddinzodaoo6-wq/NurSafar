@@ -21,6 +21,36 @@ export class ToursController {
     return this.toursService.search(filters);
   }
 
+  @Get('partner-tours')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('PARTNER', 'ADMIN')
+  @ApiOperation({ summary: '[PARTNER] Get own tours with booking counts' })
+  @ApiResponse({ status: 200, description: 'Return partner tours.' })
+  partnerTours(@CurrentUser() user: any) {
+    return this.toursService.findPartnerTours(user.id);
+  }
+
+  @Get('partner-stats')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('PARTNER', 'ADMIN')
+  @ApiOperation({ summary: '[PARTNER] Get dashboard stats' })
+  @ApiResponse({ status: 200, description: 'Return partner stats.' })
+  partnerStats(@CurrentUser() user: any) {
+    return this.toursService.getPartnerStats(user.id);
+  }
+
+  @Get('partner-clients')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('PARTNER', 'ADMIN')
+  @ApiOperation({ summary: '[PARTNER] Get clients who booked own tours' })
+  @ApiResponse({ status: 200, description: 'Return partner clients.' })
+  partnerClients(@CurrentUser() user: any) {
+    return this.toursService.findPartnerClients(user.id);
+  }
+
   @Get()
   @ApiOperation({ summary: 'Get all tours (public)' })
   @ApiResponse({ status: 200, description: 'Return all tours.' })
