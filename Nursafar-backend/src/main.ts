@@ -48,8 +48,10 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document);
 
   const port = process.env.PORT ?? 3000;
-  await app.listen(port);
-  console.log(`NurSafar API running on http://localhost:${port}/api`);
+  // '0.0.0.0' binds to every network interface so LAN devices (phones, tablets)
+  // can reach the server — not just the local machine.
+  await app.listen(port, '0.0.0.0');
+  console.log(`NurSafar API running on http://0.0.0.0:${port}/api  (all interfaces)`);
   console.log(`Swagger docs: http://localhost:${port}/api/docs`);
 }
 bootstrap();

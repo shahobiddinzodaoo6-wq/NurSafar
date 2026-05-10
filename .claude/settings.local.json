@@ -37,7 +37,12 @@
       "PowerShell($result = Invoke-WebRequest -Uri \"http://localhost:3001/api/auth/login\" -Method POST -ContentType \"application/json\" -Body '{\"email\":\"poketbroker570@gmail.com\",\"password\":\"12345678\"}' -UseBasicParsing 2>&1; Write-Host \"Status: $\\($result.StatusCode\\)\"; Write-Host \"Body: $\\($result.Content\\)\")",
       "PowerShell($result = Invoke-WebRequest -Uri \"http://localhost:3001/api/auth/login\" -Method POST -ContentType \"application/json\" -Body '{\"email\":\"agency@nursafar.tj\",\"password\":\"AgencyTest123!\"}' -UseBasicParsing; Write-Host \"Status: $\\($result.StatusCode\\)\")",
       "Bash(Get-ChildItem -Path \"D:\\\\Nursafar-project\\\\Nursafar-Frontend\\\\app\" -Recurse -Filter \"*.tsx\")",
-      "Bash(Select-Object FullName)"
+      "Bash(Select-Object FullName)",
+      "Bash(Get-ChildItem -Path \"D:\\\\Nursafar-project\" -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(npx expo *)",
+      "Bash(ipconfig)",
+      "Bash(findstr /i \"IPv4\")"
     ]
   }
 }
