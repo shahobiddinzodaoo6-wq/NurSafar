@@ -4,6 +4,7 @@ import { UpdateTourDto } from './dto/update-tour.dto';
 import { SearchTourDto } from './dto/search-tour.dto';
 export declare class ToursService {
     private readonly prisma;
+    private readonly logger;
     constructor(prisma: PrismaService);
     create(partnerId: string, dto: CreateTourDto): Promise<{
         partner: {
@@ -46,7 +47,7 @@ export declare class ToursService {
         isAvailable: boolean;
         partnerId: string;
     })[]>;
-    findAll(): import("@prisma/client").Prisma.PrismaPromise<({
+    findAll(): Promise<({
         partner: {
             id: string;
             name: string;
@@ -140,7 +141,7 @@ export declare class ToursService {
         userId: string;
         tourId: string;
     }>;
-    findUserBookings(userId: string): import("@prisma/client").Prisma.PrismaPromise<({
+    findUserBookings(userId: string): Promise<({
         tour: {
             id: string;
             createdAt: Date;
@@ -164,7 +165,7 @@ export declare class ToursService {
         userId: string;
         tourId: string;
     })[]>;
-    findPartnerTours(partnerId: string): import("@prisma/client").Prisma.PrismaPromise<({
+    findPartnerTours(partnerId: string): Promise<({
         _count: {
             bookings: number;
         };
@@ -188,7 +189,7 @@ export declare class ToursService {
         totalClients: number;
         totalRevenue: number;
     }>;
-    findPartnerClients(partnerId: string): import("@prisma/client").Prisma.PrismaPromise<({
+    findPartnerClients(partnerId: string): Promise<({
         user: {
             id: string;
             name: string;

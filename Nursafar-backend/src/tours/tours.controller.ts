@@ -51,6 +51,16 @@ export class ToursController {
     return this.toursService.findPartnerClients(user.id);
   }
 
+  // MUST come before :id to avoid NestJS matching "my" as a tour ID
+  @Get('my/bookings')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: '[CLIENT] Get current user bookings' })
+  @ApiResponse({ status: 200, description: 'Return user bookings.' })
+  myBookings(@CurrentUser() user: any) {
+    return this.toursService.findUserBookings(user.id);
+  }
+
   @Get()
   @ApiOperation({ summary: 'Get all tours (public)' })
   @ApiResponse({ status: 200, description: 'Return all tours.' })
@@ -86,15 +96,6 @@ export class ToursController {
   @ApiResponse({ status: 201, description: 'Booking created.' })
   book(@Param('id') id: string, @CurrentUser() user: any) {
     return this.toursService.book(id, user.id);
-  }
-
-  @Get('my/bookings')
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: '[CLIENT] Get current user bookings' })
-  @ApiResponse({ status: 200, description: 'Return user bookings.' })
-  myBookings(@CurrentUser() user: any) {
-    return this.toursService.findUserBookings(user.id);
   }
 
   @Patch(':id')

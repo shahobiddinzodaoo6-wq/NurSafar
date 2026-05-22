@@ -14,7 +14,6 @@ async function bootstrap() {
 
   app.enableCors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (mobile apps, curl, Swagger)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -48,10 +47,8 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document);
 
   const port = process.env.PORT ?? 3000;
-  // '0.0.0.0' binds to every network interface so LAN devices (phones, tablets)
-  // can reach the server — not just the local machine.
   await app.listen(port, '0.0.0.0');
-  console.log(`NurSafar API running on http://0.0.0.0:${port}/api  (all interfaces)`);
+  console.log(`NurSafar API running on http://0.0.0.0:${port}/api`);
   console.log(`Swagger docs: http://localhost:${port}/api/docs`);
 }
 bootstrap();

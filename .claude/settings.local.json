@@ -42,7 +42,9 @@
       "Bash(Select-Object Name)",
       "Bash(npx expo *)",
       "Bash(ipconfig)",
-      "Bash(findstr /i \"IPv4\")"
+      "Bash(findstr /i \"IPv4\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('exports',{}\\), indent=2\\)\\)\")",
+      "PowerShell(Stop-Process *)"
     ]
   }
 }

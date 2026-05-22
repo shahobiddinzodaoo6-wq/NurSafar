@@ -39,7 +39,7 @@ async function bootstrap() {
     swagger_1.SwaggerModule.setup('api/docs', app, document);
     const port = process.env.PORT ?? 3000;
     await app.listen(port, '0.0.0.0');
-    console.log(`NurSafar API running on http://0.0.0.0:${port}/api  (all interfaces)`);
+    console.log(`NurSafar API running on http://0.0.0.0:${port}/api`);
     console.log(`Swagger docs: http://localhost:${port}/api/docs`);
 }
 bootstrap();

@@ -5,7 +5,7 @@ import { DonateDto } from './dto/donate.dto';
 export declare class CrowdfundController {
     private readonly crowdfundService;
     constructor(crowdfundService: CrowdfundService);
-    findAll(): import("@prisma/client").Prisma.PrismaPromise<({
+    findAll(): Promise<({
         user: {
             id: string;
             name: string;

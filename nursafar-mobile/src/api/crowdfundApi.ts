@@ -36,9 +36,14 @@ export const crowdfundApi = baseApi.injectEndpoints({
   }),
 });
 
+
+
 export const {
   useGetCampaignsQuery,
   useGetCampaignByIdQuery,
   useCreateCampaignMutation,
   useDonateMutation,
 } = crowdfundApi;
+
+
+

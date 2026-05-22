@@ -40,6 +40,9 @@ let ToursController = class ToursController {
     partnerClients(user) {
         return this.toursService.findPartnerClients(user.id);
     }
+    myBookings(user) {
+        return this.toursService.findUserBookings(user.id);
+    }
     findAll() {
         return this.toursService.findAll();
     }
@@ -51,9 +54,6 @@ let ToursController = class ToursController {
     }
     book(id, user) {
         return this.toursService.book(id, user.id);
-    }
-    myBookings(user) {
-        return this.toursService.findUserBookings(user.id);
     }
     update(id, dto, user) {
         return this.toursService.update(id, user.id, dto);
@@ -109,6 +109,17 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ToursController.prototype, "partnerClients", null);
 __decorate([
+    (0, common_1.Get)('my/bookings'),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, swagger_1.ApiOperation)({ summary: '[CLIENT] Get current user bookings' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Return user bookings.' }),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ToursController.prototype, "myBookings", null);
+__decorate([
     (0, common_1.Get)(),
     (0, swagger_1.ApiOperation)({ summary: 'Get all tours (public)' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Return all tours.' }),
@@ -154,17 +165,6 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], ToursController.prototype, "book", null);
-__decorate([
-    (0, common_1.Get)('my/bookings'),
-    (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, swagger_1.ApiOperation)({ summary: '[CLIENT] Get current user bookings' }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'Return user bookings.' }),
-    __param(0, (0, current_user_decorator_1.CurrentUser)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], ToursController.prototype, "myBookings", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     (0, swagger_1.ApiBearerAuth)(),

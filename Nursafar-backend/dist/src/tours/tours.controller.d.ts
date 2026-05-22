@@ -25,7 +25,7 @@ export declare class ToursController {
         isAvailable: boolean;
         partnerId: string;
     })[]>;
-    partnerTours(user: any): import("@prisma/client").Prisma.PrismaPromise<({
+    partnerTours(user: any): Promise<({
         _count: {
             bookings: number;
         };
@@ -49,7 +49,7 @@ export declare class ToursController {
         totalClients: number;
         totalRevenue: number;
     }>;
-    partnerClients(user: any): import("@prisma/client").Prisma.PrismaPromise<({
+    partnerClients(user: any): Promise<({
         user: {
             id: string;
             name: string;
@@ -69,7 +69,31 @@ export declare class ToursController {
         userId: string;
         tourId: string;
     })[]>;
-    findAll(): import("@prisma/client").Prisma.PrismaPromise<({
+    myBookings(user: any): Promise<({
+        tour: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            description: string | null;
+            title: string;
+            departureCity: string;
+            price: number;
+            hotelStars: number;
+            distanceToHaram: number;
+            duration: number;
+            imageUrl: string | null;
+            isAvailable: boolean;
+            partnerId: string;
+        };
+    } & {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        status: import("@prisma/client").$Enums.BookingStatus;
+        userId: string;
+        tourId: string;
+    })[]>;
+    findAll(): Promise<({
         partner: {
             id: string;
             name: string;
@@ -154,30 +178,6 @@ export declare class ToursController {
         userId: string;
         tourId: string;
     }>;
-    myBookings(user: any): import("@prisma/client").Prisma.PrismaPromise<({
-        tour: {
-            id: string;
-            createdAt: Date;
-            updatedAt: Date;
-            description: string | null;
-            title: string;
-            departureCity: string;
-            price: number;
-            hotelStars: number;
-            distanceToHaram: number;
-            duration: number;
-            imageUrl: string | null;
-            isAvailable: boolean;
-            partnerId: string;
-        };
-    } & {
-        id: string;
-        createdAt: Date;
-        updatedAt: Date;
-        status: import("@prisma/client").$Enums.BookingStatus;
-        userId: string;
-        tourId: string;
-    })[]>;
     update(id: string, dto: UpdateTourDto, user: any): Promise<{
         id: string;
         createdAt: Date;
