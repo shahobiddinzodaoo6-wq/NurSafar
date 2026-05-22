@@ -8,12 +8,14 @@ interface AuthState {
   isHydrating: boolean;
 }
 
+
 const initialState: AuthState = {
   user: null,
   token: null,
   isAuthenticated: false,
   isHydrating: true,
 };
+
 
 const authSlice = createSlice({
   name: "auth",
@@ -39,6 +41,8 @@ const authSlice = createSlice({
     },
   },
 });
+
+
 
 export const { setCredentials, logout, setHydrated } = authSlice.actions;
 export default authSlice.reducer;
