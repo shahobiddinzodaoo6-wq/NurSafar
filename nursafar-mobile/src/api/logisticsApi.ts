@@ -18,4 +18,5 @@ export const logisticsApi = baseApi.injectEndpoints({
   }),
 });
 
+
 export const { useGetMyTripsQuery, useUpdateTripStatusMutation } = logisticsApi;

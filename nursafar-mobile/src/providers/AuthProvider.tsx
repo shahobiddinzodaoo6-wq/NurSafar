@@ -9,8 +9,10 @@ interface Props {
   children: React.ReactNode;
 }
 
+
 export function AuthProvider({ children }: Props) {
   const dispatch = useAppDispatch();
+
 
   useEffect(() => {
     async function hydrate() {
@@ -28,6 +30,8 @@ export function AuthProvider({ children }: Props) {
           dispatch(setCredentials({ user, token }));
           return;
         }
+        
+        
 
         // Fallback: reconstruct user from JWT payload
         const payload = decodeJwt(token);
