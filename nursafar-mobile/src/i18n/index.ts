@@ -6,7 +6,11 @@ import en from "./locales/en";
 import ru from "./locales/ru";
 import tj from "./locales/tj";
 
+
+
 // ─── Supported languages ──────────────────────────────────────────────────────
+
+
 
 export const LANGUAGES = {
   en: { name: "English",  nativeName: "English",  flag: "🇬🇧" },
@@ -40,3 +44,5 @@ i18n.use(initReactI18next).init({
 });
 
 export default i18n;
+
+
