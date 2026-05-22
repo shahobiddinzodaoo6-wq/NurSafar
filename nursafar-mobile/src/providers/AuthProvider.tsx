@@ -31,7 +31,7 @@ export function AuthProvider({ children }: Props) {
           return;
         }
         
-        
+
 
         // Fallback: reconstruct user from JWT payload
         const payload = decodeJwt(token);
@@ -46,6 +46,7 @@ export function AuthProvider({ children }: Props) {
           return;
         }
 
+
         await storage.clearAll();
         dispatch(setHydrated());
       } catch {
@@ -54,8 +55,10 @@ export function AuthProvider({ children }: Props) {
       }
     }
 
+
     hydrate();
   }, [dispatch]);
 
   return <>{children}</>;
 }
+
