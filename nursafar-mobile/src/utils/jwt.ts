@@ -6,6 +6,8 @@ function base64UrlDecode(str: string): string {
   return atob(padded);
 }
 
+
+
 export function decodeJwt(token: string): JwtPayload | null {
   try {
     const parts = token.split(".");
@@ -17,8 +19,12 @@ export function decodeJwt(token: string): JwtPayload | null {
   }
 }
 
+
+
 export function isTokenExpired(token: string): boolean {
   const payload = decodeJwt(token);
   if (!payload?.exp) return true;
   return Date.now() >= payload.exp * 1000;
 }
+
+
