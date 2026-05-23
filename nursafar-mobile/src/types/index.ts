@@ -13,6 +13,7 @@ export interface AuthUser {
   role: Role;
 }
 
+
 export interface JwtPayload {
   sub: string;
   email: string;
@@ -22,15 +23,18 @@ export interface JwtPayload {
   exp: number;
 }
 
+
 export interface AuthResponse {
   user: AuthUser;
   access_token: string;
 }
 
+
 export interface LoginRequest {
   email: string;
   password: string;
 }
+
 
 export interface RegisterRequest {
   name: string;
@@ -39,6 +43,7 @@ export interface RegisterRequest {
   password: string;
   role: Exclude<Role, "ADMIN">;
 }
+
 
 // ─── User ─────────────────────────────────────────────────────────────────────
 
