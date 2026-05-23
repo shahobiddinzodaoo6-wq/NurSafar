@@ -13,9 +13,11 @@ interface Props {
   children: React.ReactNode;
 }
 
+
 export function PreferencesProvider({ children }: Props) {
   const dispatch = useAppDispatch();
   const { setColorScheme } = useColorScheme();
+
 
   useEffect(() => {
     async function hydrate() {
@@ -29,6 +31,8 @@ export function PreferencesProvider({ children }: Props) {
         if (i18n.language !== resolvedLang) {
           await i18n.changeLanguage(resolvedLang);
         }
+
+
 
         // Apply theme to NativeWind (triggers dark: class variants globally)
         setColorScheme(resolvedTheme);
@@ -45,3 +49,5 @@ export function PreferencesProvider({ children }: Props) {
 
   return <>{children}</>;
 }
+
+
