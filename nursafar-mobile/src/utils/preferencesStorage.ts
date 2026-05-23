@@ -14,13 +14,16 @@ export const preferencesStorage = {
     return (await AsyncStorage.getItem(LANG_KEY)) as SupportedLang | null;
   },
 
+
   async saveTheme(theme: ThemePreference): Promise<void> {
     await AsyncStorage.setItem(THEME_KEY, theme);
   },
 
+
   async getTheme(): Promise<ThemePreference | null> {
     return (await AsyncStorage.getItem(THEME_KEY)) as ThemePreference | null;
   },
+
 
   async loadAll(): Promise<{
     language: SupportedLang | null;
@@ -33,3 +36,5 @@ export const preferencesStorage = {
     };
   },
 };
+
+
