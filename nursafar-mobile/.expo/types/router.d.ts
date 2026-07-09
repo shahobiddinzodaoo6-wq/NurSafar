@@ -12,6 +12,3 @@ declare module 'expo-router' {
     }
   }
 }
-
-
-

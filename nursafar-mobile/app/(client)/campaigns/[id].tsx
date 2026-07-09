@@ -26,6 +26,8 @@ export default function CampaignDetailScreen() {
   const [showDonateModal, setShowDonateModal] = useState(false);
   const [amount, setAmount] = useState("");
   const [message, setMessage] = useState("");
+  const [amountFocused, setAmountFocused] = useState(false);
+  const [msgFocused, setMsgFocused] = useState(false);
 
   const progress = campaign
     ? Math.min((campaign.currentAmount / campaign.targetAmount) * 100, 100)
@@ -50,7 +52,7 @@ export default function CampaignDetailScreen() {
 
   if (isLoading) {
     return (
-      <View className="flex-1 items-center justify-center bg-white">
+      <View className="flex-1 items-center justify-center bg-white dark:bg-gray-950">
         <ActivityIndicator size="large" color="#2B6CB0" />
       </View>
     );
@@ -58,27 +60,28 @@ export default function CampaignDetailScreen() {
 
   if (!campaign) {
     return (
-      <SafeAreaView className="flex-1 items-center justify-center bg-white">
-        <Text className="text-gray-500">Campaign not found</Text>
-        <TouchableOpacity className="mt-4" onPress={() => router.back()}>
-          <Text className="text-primary-500 font-semibold">Go Back</Text>
+      <SafeAreaView className="flex-1 items-center justify-center bg-white dark:bg-gray-950">
+        <Ionicons name="heart-dislike-outline" size={64} color="#EF4444" className="mb-3" />
+        <Text className="text-gray-500 dark:text-gray-400">Campaign not found</Text>
+        <TouchableOpacity className="mt-4 bg-primary-500 px-5 py-2.5 rounded-full" onPress={() => router.back()}>
+          <Text className="text-white font-bold">Go Back</Text>
         </TouchableOpacity>
       </SafeAreaView>
     );
   }
 
   return (
-    <View className="flex-1 bg-white">
-      <SafeAreaView edges={["top"]} className="bg-white">
-        <View className="flex-row items-center px-4 py-3 border-b border-gray-100">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-950">
+      <SafeAreaView edges={["top"]} className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
+        <View className="flex-row items-center px-4 py-3">
           <TouchableOpacity
-            className="mr-3 w-9 h-9 rounded-full bg-gray-100 items-center justify-center"
+            className="mr-3 w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-850 items-center justify-center"
             onPress={() => router.back()}
           >
             <Ionicons name="chevron-back" size={18} color="#374151" />
           </TouchableOpacity>
-          <Text className="text-lg font-bold text-gray-900 flex-1" numberOfLines={1}>
-            Campaign
+          <Text className="text-lg font-bold text-gray-900 dark:text-white flex-1" numberOfLines={1}>
+            Campaign Details
           </Text>
         </View>
       </SafeAreaView>
@@ -88,83 +91,88 @@ export default function CampaignDetailScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 120 }}
       >
-        <View className="px-5 pt-5">
-          {/* Title */}
-          <Text className="text-2xl font-bold text-gray-900 mb-2">
-            {campaign.title}
-          </Text>
-          {campaign.description && (
-            <Text className="text-gray-500 text-sm leading-relaxed mb-6">
-              {campaign.description}
+        <View className="px-5 pt-6">
+          {/* Title Card */}
+          <View className="bg-white dark:bg-gray-900 p-5 rounded-3xl mb-4 border border-gray-100 dark:border-gray-805 shadow-sm shadow-black/5">
+            <Text className="text-xl font-bold text-gray-900 dark:text-white mb-2 leading-tight">
+              {campaign.title}
             </Text>
-          )}
+            {campaign.description && (
+              <Text className="text-gray-500 dark:text-gray-450 text-sm leading-relaxed mt-2">
+                {campaign.description}
+              </Text>
+            )}
+          </View>
 
-          {/* Progress */}
-          <View className="p-4 bg-gray-50 rounded-2xl mb-6">
+          {/* Progress Widget */}
+          <View className="p-5 bg-white dark:bg-gray-900 rounded-3xl mb-6 border border-gray-100 dark:border-gray-805 shadow-sm shadow-black/5">
             <View className="flex-row justify-between mb-3">
               <View>
-                <Text className="text-2xl font-bold text-gray-900">
+                <Text className="text-2xl font-black text-gray-900 dark:text-white">
                   ${campaign.currentAmount.toLocaleString()}
                 </Text>
-                <Text className="text-gray-400 text-xs">raised</Text>
+                <Text className="text-gray-400 dark:text-gray-500 text-xs font-semibold uppercase tracking-wider mt-0.5">raised</Text>
               </View>
               <View className="items-end">
-                <Text className="text-2xl font-bold text-gray-900">
+                <Text className="text-2xl font-black text-primary-500 dark:text-primary-400">
                   {Math.round(progress)}%
                 </Text>
-                <Text className="text-gray-400 text-xs">funded</Text>
+                <Text className="text-gray-400 dark:text-gray-500 text-xs font-semibold uppercase tracking-wider mt-0.5">funded</Text>
               </View>
             </View>
 
-            <View className="h-3 bg-gray-200 rounded-full overflow-hidden mb-2">
+            <View className="h-3 bg-gray-100 dark:bg-gray-850 rounded-full overflow-hidden mb-3">
               <View
                 className="h-full rounded-full"
                 style={{
                   width: `${progress}%`,
-                  backgroundColor: campaign.isCompleted ? "#10B981" : "#D4AF37",
+                  backgroundColor: campaign.isCompleted ? "#10B981" : "#C5A028",
                 }}
               />
             </View>
 
-            <Text className="text-gray-400 text-xs text-right">
+            <Text className="text-gray-400 dark:text-gray-500 text-xs text-right font-medium">
               Goal: ${campaign.targetAmount.toLocaleString()}
             </Text>
           </View>
 
           {/* Donations list */}
-          {campaign.donations && campaign.donations.length > 0 && (
-            <View>
-              <Text className="text-base font-bold text-gray-900 mb-3">
-                Recent Donors ({campaign.donations.length})
+          {campaign.donations && campaign.donations.length > 0 ? (
+            <View className="bg-white dark:bg-gray-900 p-5 rounded-3xl border border-gray-100 dark:border-gray-805 shadow-sm shadow-black/5">
+              <Text className="text-base font-bold text-gray-900 dark:text-white mb-4">
+                Recent Donations ({campaign.donations.length})
               </Text>
               {campaign.donations.slice(0, 10).map((d) => (
                 <View
                   key={d.id}
-                  className="flex-row items-center py-3 border-b border-gray-50"
+                  className="flex-row items-center py-3.5 border-b border-gray-50 dark:border-gray-850"
                 >
-                  <View className="w-9 h-9 rounded-full bg-primary-100 items-center justify-center mr-3">
-                    <Text className="text-primary-500 font-bold text-sm">
-                      {d.amount > 0 ? "❤️" : ""}
-                    </Text>
+                  <View className="w-10 h-10 rounded-2xl bg-rose-50 dark:bg-rose-950/20 items-center justify-center mr-3">
+                    <Ionicons name="heart" size={18} color="#F43F5E" />
                   </View>
                   <View className="flex-1">
-                    <Text className="text-sm font-semibold text-gray-700">
+                    <Text className="text-sm font-bold text-gray-850 dark:text-white">
                       Anonymous Donor
                     </Text>
                     {d.message && (
                       <Text
-                        className="text-gray-400 text-xs mt-0.5"
+                        className="text-gray-400 dark:text-gray-500 text-xs mt-0.5 italic"
                         numberOfLines={1}
                       >
                         "{d.message}"
                       </Text>
                     )}
                   </View>
-                  <Text className="text-primary-500 font-bold text-sm">
-                    ${d.amount.toLocaleString()}
+                  <Text className="text-primary-500 dark:text-primary-400 font-extrabold text-sm">
+                    +${d.amount.toLocaleString()}
                   </Text>
                 </View>
               ))}
+            </View>
+          ) : (
+            <View className="bg-white dark:bg-gray-900 p-8 rounded-3xl border border-gray-100 dark:border-gray-805 shadow-sm shadow-black/5 items-center justify-center">
+              <Ionicons name="heart-outline" size={32} color="#D1D5DB" className="mb-2" />
+              <Text className="text-gray-400 dark:text-gray-500 text-xs font-semibold">No donations yet. Be the first!</Text>
             </View>
           )}
         </View>
@@ -173,18 +181,18 @@ export default function CampaignDetailScreen() {
       {/* Donate CTA */}
       {!campaign.isCompleted && (
         <View
-          className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-5"
+          className="absolute bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 px-5 shadow-lg shadow-black/10"
           style={{
             paddingBottom: Platform.OS === "ios" ? 34 : 16,
-            paddingTop: 12,
+            paddingTop: 16,
           }}
         >
           <TouchableOpacity
-            className="bg-gold-400 rounded-2xl py-4 items-center"
+            className="bg-gold-400 rounded-2xl py-4.5 items-center justify-center shadow-lg shadow-gold-500/25"
             onPress={() => setShowDonateModal(true)}
             activeOpacity={0.85}
           >
-            <Text className="text-white font-bold text-base">
+            <Text className="text-white font-bold text-base tracking-wide">
               🤲 Donate Now
             </Text>
           </TouchableOpacity>
@@ -198,10 +206,10 @@ export default function CampaignDetailScreen() {
         animationType="slide"
         onRequestClose={() => setShowDonateModal(false)}
       >
-        <View className="flex-1 justify-end bg-black/40">
-          <View className="bg-white rounded-t-3xl px-5 pt-5 pb-10">
-            <View className="flex-row items-center justify-between mb-5">
-              <Text className="text-xl font-bold text-gray-900">
+        <View className="flex-1 justify-end bg-black/50">
+          <View className="bg-white dark:bg-gray-900 rounded-t-[36px] px-5 pt-6 pb-12 shadow-2xl">
+            <View className="flex-row items-center justify-between mb-6">
+              <Text className="text-xl font-extrabold text-gray-900 dark:text-white">
                 Make a Donation
               </Text>
               <TouchableOpacity onPress={() => setShowDonateModal(false)}>
@@ -209,34 +217,54 @@ export default function CampaignDetailScreen() {
               </TouchableOpacity>
             </View>
 
-            <Text className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+            {/* Donation Amount */}
+            <Text className="text-xs font-bold text-gray-550 dark:text-gray-400 uppercase tracking-widest mb-2.5">
               Amount (USD)
             </Text>
-            <TextInput
-              className="border border-gray-200 rounded-2xl px-4 py-4 text-gray-900 text-lg font-bold mb-4 bg-gray-50"
-              placeholder="0.00"
-              placeholderTextColor="#9CA3AF"
-              keyboardType="numeric"
-              value={amount}
-              onChangeText={setAmount}
-            />
+            <View
+              className={`flex-row items-center border rounded-2xl px-4 bg-gray-50 dark:bg-gray-950 mb-5 ${
+                amountFocused ? "border-primary-500 ring-1 ring-primary-500" : "border-gray-200 dark:border-gray-800"
+              }`}
+            >
+              <Text className="text-gray-400 dark:text-gray-500 text-lg font-bold mr-1.5">$</Text>
+              <TextInput
+                className="flex-1 py-4 text-gray-900 dark:text-white text-lg font-bold"
+                placeholder="0.00"
+                placeholderTextColor="#9CA3AF"
+                keyboardType="numeric"
+                value={amount}
+                onChangeText={setAmount}
+                onFocus={() => setAmountFocused(true)}
+                onBlur={() => setAmountFocused(false)}
+              />
+            </View>
 
-            <Text className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+            {/* Donation Message */}
+            <Text className="text-xs font-bold text-gray-555 dark:text-gray-400 uppercase tracking-widest mb-2.5">
               Message (optional)
             </Text>
-            <TextInput
-              className="border border-gray-200 rounded-2xl px-4 py-3 text-gray-900 bg-gray-50 mb-6"
-              placeholder="Leave a kind message..."
-              placeholderTextColor="#9CA3AF"
-              multiline
-              numberOfLines={2}
-              value={message}
-              onChangeText={setMessage}
-            />
+            <View
+              className={`flex-row items-center border rounded-2xl px-4 bg-gray-50 dark:bg-gray-950 mb-6 ${
+                msgFocused ? "border-primary-500 ring-1 ring-primary-500" : "border-gray-200 dark:border-gray-800"
+              }`}
+            >
+              <TextInput
+                className="flex-1 py-4 text-gray-900 dark:text-white text-base"
+                placeholder="Leave a kind message..."
+                placeholderTextColor="#9CA3AF"
+                multiline
+                numberOfLines={2}
+                value={message}
+                onChangeText={setMessage}
+                onFocus={() => setMsgFocused(true)}
+                onBlur={() => setMsgFocused(false)}
+              />
+            </View>
 
+            {/* Modal Confirm Button */}
             <TouchableOpacity
-              className={`rounded-2xl py-4 items-center ${
-                isDonating ? "bg-primary-300" : "bg-primary-500"
+              className={`rounded-2xl py-4.5 items-center justify-center shadow-lg ${
+                isDonating ? "bg-primary-300" : "bg-primary-500 shadow-primary-500/25"
               }`}
               onPress={handleDonate}
               disabled={isDonating}
@@ -245,7 +273,7 @@ export default function CampaignDetailScreen() {
               {isDonating ? (
                 <ActivityIndicator color="#fff" />
               ) : (
-                <Text className="text-white font-bold text-base">
+                <Text className="text-white font-bold text-base tracking-wide">
                   Confirm Donation
                 </Text>
               )}

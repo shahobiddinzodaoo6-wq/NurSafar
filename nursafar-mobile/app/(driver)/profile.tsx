@@ -67,16 +67,16 @@ export default function DriverProfileScreen() {
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
 
         {/* ── Driver Header Card ─────────────────────────────────────────── */}
-        <View className="mx-4 mt-4 p-5 rounded-3xl bg-primary-500">
-          <View className="flex-row items-center gap-4 mb-5">
-            <View className="w-16 h-16 rounded-2xl bg-white/20 items-center justify-center">
-              <Text className="text-3xl">🚐</Text>
+        <View className="mx-4 mt-4 p-6 rounded-3xl bg-primary-500 shadow-lg shadow-primary-500/20">
+          <View className="flex-row items-center gap-4 mb-6">
+            <View className="w-16 h-16 rounded-2xl bg-white/15 items-center justify-center border border-white/10 shadow-sm">
+              <Ionicons name="bus" size={32} color="#fff" />
             </View>
-            <View>
-              <Text className="text-white text-xl font-bold">{user?.name}</Text>
-              <Text className="text-primary-200 text-sm">{user?.email}</Text>
-              <View className="mt-1 bg-white/20 self-start px-2 py-0.5 rounded-full">
-                <Text className="text-white text-xs font-semibold capitalize">
+            <View className="flex-1">
+              <Text className="text-white text-xl font-black" numberOfLines={1}>{user?.name}</Text>
+              <Text className="text-primary-100 text-xs font-medium" numberOfLines={1}>{user?.email}</Text>
+              <View className="mt-2 bg-white/20 self-start px-3 py-1 rounded-full border border-white/10">
+                <Text className="text-white text-[10px] font-bold uppercase tracking-wider">
                   {t("auth.driver")}
                 </Text>
               </View>
@@ -85,38 +85,38 @@ export default function DriverProfileScreen() {
 
           {/* Trip stats */}
           <View className="flex-row gap-3">
-            <View className="flex-1 bg-white/15 rounded-2xl p-3 items-center">
-              <Text className="text-white text-2xl font-bold">{completed}</Text>
-              <Text className="text-primary-200 text-xs">{t("driver.totalCompleted")}</Text>
+            <View className="flex-1 bg-white/10 rounded-2xl p-3.5 items-center border border-white/5">
+              <Text className="text-white text-2xl font-black">{completed}</Text>
+              <Text className="text-primary-100 text-[10px] font-bold uppercase tracking-wider mt-0.5">{t("driver.totalCompleted")}</Text>
             </View>
-            <View className="flex-1 bg-white/15 rounded-2xl p-3 items-center">
-              <Text className="text-white text-2xl font-bold">{inProgress}</Text>
-              <Text className="text-primary-200 text-xs">{t("driver.inProgressCount")}</Text>
+            <View className="flex-1 bg-white/10 rounded-2xl p-3.5 items-center border border-white/5">
+              <Text className="text-white text-2xl font-black">{inProgress}</Text>
+              <Text className="text-primary-100 text-[10px] font-bold uppercase tracking-wider mt-0.5">{t("driver.inProgressCount")}</Text>
             </View>
-            <View className="flex-1 bg-white/15 rounded-2xl p-3 items-center">
-              <Text className="text-white text-2xl font-bold">{pending}</Text>
-              <Text className="text-primary-200 text-xs">{t("driver.pendingCount")}</Text>
+            <View className="flex-1 bg-white/10 rounded-2xl p-3.5 items-center border border-white/5">
+              <Text className="text-white text-2xl font-black">{pending}</Text>
+              <Text className="text-primary-100 text-[10px] font-bold uppercase tracking-wider mt-0.5">{t("driver.pendingCount")}</Text>
             </View>
           </View>
         </View>
 
         {/* ── Menu ──────────────────────────────────────────────────────── */}
-        <View className="mx-4 mt-4 rounded-3xl bg-white dark:bg-gray-900 overflow-hidden mb-6">
+        <View className="mx-4 mt-5 rounded-3xl bg-white dark:bg-gray-900 overflow-hidden mb-6 border border-gray-100 dark:border-gray-805 shadow-sm shadow-black/5">
           {menuItems.map((item, idx) => (
             <TouchableOpacity
               key={item.label}
-              className={`flex-row items-center px-5 py-4 ${
+              className={`flex-row items-center px-5 py-4.5 ${
                 idx < menuItems.length - 1
-                  ? "border-b border-gray-50 dark:border-gray-800"
+                  ? "border-b border-gray-50 dark:border-gray-850"
                   : ""
               }`}
               onPress={item.onPress}
               activeOpacity={0.7}
             >
-              <View className="w-9 h-9 rounded-xl bg-gray-100 dark:bg-gray-800 items-center justify-center mr-3">
+              <View className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-850 items-center justify-center mr-3 border border-gray-100/50 dark:border-gray-800/40">
                 <Ionicons name={item.icon} size={18} color="#6B7280" />
               </View>
-              <Text className="flex-1 font-medium text-gray-700 dark:text-gray-300 text-sm">
+              <Text className="flex-1 font-bold text-gray-705 dark:text-gray-300 text-sm">
                 {item.label}
               </Text>
               <Ionicons name="chevron-forward" size={16} color="#D1D5DB" />
@@ -126,15 +126,15 @@ export default function DriverProfileScreen() {
 
         {/* ── Log Out ───────────────────────────────────────────────────── */}
         <TouchableOpacity
-          className="mx-4 mb-8 flex-row items-center justify-center gap-2 py-4 rounded-3xl border-2 border-red-100 dark:border-red-900 bg-red-50 dark:bg-red-950"
+          className="mx-4 mb-8 flex-row items-center justify-center gap-2 py-4.5 rounded-3xl border border-red-100 dark:border-red-950 bg-red-50 dark:bg-red-950/20 shadow-sm"
           onPress={handleLogout}
           activeOpacity={0.8}
         >
           <Ionicons name="log-out-outline" size={20} color="#EF4444" />
-          <Text className="text-red-500 font-bold">{t("profile.logOut")}</Text>
+          <Text className="text-red-500 font-extrabold text-sm tracking-wide">{t("profile.logOut")}</Text>
         </TouchableOpacity>
 
-        <Text className="text-center text-gray-300 dark:text-gray-700 text-xs mb-6">
+        <Text className="text-center text-gray-300 dark:text-gray-700 text-[10px] font-bold uppercase tracking-wider mb-6">
           {t("profile.version")}
         </Text>
       </ScrollView>

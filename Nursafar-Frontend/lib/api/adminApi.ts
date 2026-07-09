@@ -13,6 +13,8 @@ export interface ChartPoint {
   bookings: number;
 }
 
+
+
 export interface Transaction {
   id: string;
   type: "TOUR" | "DONATION";
@@ -23,6 +25,8 @@ export interface Transaction {
   createdAt: string;
 }
 
+
+
 export interface AdminUser {
   id: string;
   name: string;
@@ -32,6 +36,8 @@ export interface AdminUser {
   isApproved: boolean;
   createdAt: string;
 }
+
+
 
 export const adminApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -87,3 +93,5 @@ export const {
   useGetAllUsersQuery,
   useDeleteUserMutation,
 } = adminApi;
+
+

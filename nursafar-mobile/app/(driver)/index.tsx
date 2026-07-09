@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   Alert,
   RefreshControl,
+  Linking,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,7 +17,6 @@ import {
 import { useAppSelector } from "../../src/hooks/useAppSelector";
 import type { Logistics, LogisticsStatus } from "../../src/types";
 
-// Status config — drives colors, labels, and the NEXT action
 const STATUS_CONFIG: Record<
   LogisticsStatus,
   {
@@ -29,19 +29,19 @@ const STATUS_CONFIG: Record<
   }
 > = {
   PENDING: {
-    label: "Pending",
+    label: "Pending Pickup",
     color: "#D97706",
     bgColor: "#FEF3C7",
     nextStatus: "IN_PROGRESS",
-    actionLabel: "Picked Up",
+    actionLabel: "Start Trip (Picked Up)",
     actionColor: "#2B6CB0",
   },
   IN_PROGRESS: {
-    label: "In Progress",
+    label: "In Transit",
     color: "#2B6CB0",
     bgColor: "#EBF4FF",
     nextStatus: "COMPLETED",
-    actionLabel: "Dropped Off",
+    actionLabel: "Complete Trip (Dropped Off)",
     actionColor: "#059669",
   },
   COMPLETED: {
@@ -79,69 +79,74 @@ function TripCard({
   });
 
   return (
-    <View className="mx-4 mb-4 rounded-3xl bg-white shadow-sm border border-gray-100 overflow-hidden">
-      {/* Status bar */}
+    <View className="mx-4 mb-4 rounded-3xl bg-white dark:bg-gray-900 shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
+      {/* Status Bar */}
       <View
-        className="px-4 py-2 flex-row items-center justify-between"
+        className="px-5 py-3 flex-row items-center justify-between"
         style={{ backgroundColor: cfg.bgColor }}
       >
-        <View className="flex-row items-center gap-1.5">
+        <View className="flex-row items-center gap-2">
           <View
-            className="w-2 h-2 rounded-full"
+            className="w-2.5 h-2.5 rounded-full"
             style={{ backgroundColor: cfg.color }}
           />
-          <Text className="font-semibold text-xs" style={{ color: cfg.color }}>
+          <Text className="font-bold text-xs uppercase tracking-wider" style={{ color: cfg.color }}>
             {cfg.label}
           </Text>
         </View>
-        <Text className="text-xs font-medium" style={{ color: cfg.color }}>
+        <Text className="text-xs font-bold" style={{ color: cfg.color }}>
           {dateStr} · {timeStr}
         </Text>
       </View>
 
-      <View className="p-4">
-        {/* Pilgrim info */}
-        <View className="flex-row items-center gap-3 mb-4">
-          <View className="w-12 h-12 rounded-2xl bg-primary-100 items-center justify-center">
-            <Text className="text-primary-600 font-bold text-lg">
-              {pilgrim?.name?.[0]?.toUpperCase() ?? "P"}
-            </Text>
+      <View className="p-5">
+        {/* Pilgrim Details */}
+        <View className="flex-row items-center justify-between mb-5">
+          <View className="flex-row items-center gap-3">
+            <View className="w-12 h-12 rounded-2xl bg-primary-50 dark:bg-primary-950/20 items-center justify-center border border-primary-100 dark:border-primary-900/50">
+              <Text className="text-primary-600 dark:text-primary-400 font-extrabold text-lg">
+                {pilgrim?.name?.[0]?.toUpperCase() ?? "P"}
+              </Text>
+            </View>
+            <View>
+              <Text className="font-extrabold text-gray-900 dark:text-white text-base">
+                {pilgrim?.name ?? "Pilgrim"}
+              </Text>
+              <Text className="text-gray-400 dark:text-gray-500 text-xs">Pilgrim Passenger</Text>
+            </View>
           </View>
-          <View className="flex-1">
-            <Text className="font-bold text-gray-900 text-base">
-              {pilgrim?.name ?? "Pilgrim"}
-            </Text>
-            {pilgrim?.phone && (
-              <View className="flex-row items-center gap-1 mt-0.5">
-                <Ionicons name="call-outline" size={12} color="#9CA3AF" />
-                <Text className="text-gray-400 text-xs">{pilgrim.phone}</Text>
-              </View>
-            )}
-          </View>
+
+          {/* Quick Call */}
+          {pilgrim?.phone && (
+            <TouchableOpacity
+              className="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/55 items-center justify-center shadow-sm"
+              onPress={() => Linking.openURL(`tel:${pilgrim.phone}`)}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="call" size={18} color="#059669" />
+            </TouchableOpacity>
+          )}
         </View>
 
-        {/* Route */}
-        <View className="bg-gray-50 rounded-2xl p-3 mb-4">
-          <View className="flex-row items-start gap-2">
+        {/* Route Timeline */}
+        <View className="bg-gray-50 dark:bg-gray-950 rounded-2xl p-4 mb-5 border border-gray-100 dark:border-gray-850">
+          <View className="flex-row items-start gap-3">
             <View className="items-center mt-1">
-              <View className="w-3 h-3 rounded-full border-2 border-primary-500 bg-white" />
-              <View className="w-0.5 h-8 bg-gray-200 my-1" />
-              <View className="w-3 h-3 rounded-full bg-primary-500" />
+              <View className="w-3 h-3 rounded-full border-2 border-primary-500 bg-white dark:bg-gray-950" />
+              <View className="w-0.5 h-10 bg-gray-200 dark:bg-gray-800 my-1" />
+              <View className="w-3 h-3 rounded-full bg-gold-400" />
             </View>
-            <View className="flex-1 gap-2">
+            <View className="flex-1 gap-3">
               <View>
-                <Text className="text-xs text-gray-400">Pickup</Text>
-                <Text
-                  className="text-sm font-semibold text-gray-700"
-                  numberOfLines={2}
-                >
+                <Text className="text-[10px] font-bold text-gray-450 dark:text-gray-500 uppercase tracking-widest">Pickup Address</Text>
+                <Text className="text-sm font-semibold text-gray-800 dark:text-gray-200 mt-0.5" numberOfLines={2}>
                   {trip.pickupAddress}
                 </Text>
               </View>
               <View>
-                <Text className="text-xs text-gray-400">Destination</Text>
-                <Text className="text-sm font-semibold text-gray-700">
-                  {tour?.title ?? "Haram Area"}
+                <Text className="text-[10px] font-bold text-gray-450 dark:text-gray-500 uppercase tracking-widest">Destination</Text>
+                <Text className="text-sm font-semibold text-gray-800 dark:text-gray-200 mt-0.5" numberOfLines={1}>
+                  {tour?.title ?? "Haram Area Hotel"}
                 </Text>
               </View>
             </View>
@@ -151,7 +156,7 @@ function TripCard({
         {/* Action button */}
         {cfg.nextStatus && cfg.actionLabel && (
           <TouchableOpacity
-            className="rounded-2xl py-4 items-center flex-row justify-center gap-2"
+            className="rounded-2xl py-4.5 items-center flex-row justify-center gap-2 shadow-md shadow-primary-500/10"
             style={{ backgroundColor: cfg.actionColor }}
             onPress={() => onStatusChange(trip.id, cfg.nextStatus!)}
             disabled={isUpdating}
@@ -162,15 +167,11 @@ function TripCard({
             ) : (
               <>
                 <Ionicons
-                  name={
-                    trip.status === "PENDING"
-                      ? "car-outline"
-                      : "checkmark-circle-outline"
-                  }
+                  name={trip.status === "PENDING" ? "car" : "checkmark-circle"}
                   size={20}
                   color="#fff"
                 />
-                <Text className="text-white font-bold text-base">
+                <Text className="text-white font-bold text-base tracking-wide">
                   {cfg.actionLabel}
                 </Text>
               </>
@@ -179,9 +180,9 @@ function TripCard({
         )}
 
         {trip.status === "COMPLETED" && (
-          <View className="flex-row items-center justify-center gap-2 py-3">
+          <View className="flex-row items-center justify-center gap-2 py-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/40 rounded-2xl">
             <Ionicons name="checkmark-circle" size={20} color="#059669" />
-            <Text className="text-emerald-600 font-semibold">
+            <Text className="text-emerald-600 dark:text-emerald-400 font-bold">
               Trip Completed
             </Text>
           </View>
@@ -199,7 +200,7 @@ export default function DriverTripsScreen() {
     isFetching,
     refetch,
   } = useGetMyTripsQuery(undefined, {
-    pollingInterval: 30_000, // auto-refresh every 30s
+    pollingInterval: 30_000,
   });
 
   const [updateStatus, { isLoading: isUpdating, originalArgs }] =
@@ -230,7 +231,6 @@ export default function DriverTripsScreen() {
     );
   }
 
-  // Sort: PENDING first, then IN_PROGRESS, then COMPLETED
   const ORDER: Record<LogisticsStatus, number> = {
     PENDING: 0,
     IN_PROGRESS: 1,
@@ -245,19 +245,19 @@ export default function DriverTripsScreen() {
   ).length;
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-950" edges={["top"]}>
       {/* Header */}
-      <View className="px-5 pt-2 pb-4 bg-white border-b border-gray-100">
+      <View className="px-5 pt-2 pb-4 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
         <View className="flex-row items-center justify-between">
           <View>
-            <Text className="text-2xl font-bold text-gray-900">My Trips</Text>
-            <Text className="text-gray-400 text-sm">
+            <Text className="text-2xl font-black text-gray-900 dark:text-white">My Trips</Text>
+            <Text className="text-gray-400 dark:text-gray-500 text-sm mt-0.5">
               Welcome, {user?.name?.split(" ")[0]}
             </Text>
           </View>
           {active > 0 && (
-            <View className="bg-primary-500 w-8 h-8 rounded-full items-center justify-center">
-              <Text className="text-white font-bold text-sm">{active}</Text>
+            <View className="bg-primary-500 w-8 h-8 rounded-full items-center justify-center shadow-lg shadow-primary-500/20">
+              <Text className="text-white font-extrabold text-sm">{active}</Text>
             </View>
           )}
         </View>
@@ -289,12 +289,14 @@ export default function DriverTripsScreen() {
             />
           }
           ListEmptyComponent={
-            <View className="items-center py-24">
-              <Text className="text-5xl mb-4">🚐</Text>
-              <Text className="text-gray-500 font-semibold text-lg">
+            <View className="items-center py-24 px-6">
+              <View className="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 items-center justify-center mb-4">
+                <Ionicons name="bus-outline" size={40} color="#9CA3AF" />
+              </View>
+              <Text className="text-gray-800 dark:text-white font-bold text-lg">
                 No trips assigned
               </Text>
-              <Text className="text-gray-400 text-sm mt-1 text-center px-8">
+              <Text className="text-gray-400 dark:text-gray-500 text-sm mt-1 text-center leading-relaxed">
                 Pull down to refresh. New trips will appear here when assigned.
               </Text>
             </View>
